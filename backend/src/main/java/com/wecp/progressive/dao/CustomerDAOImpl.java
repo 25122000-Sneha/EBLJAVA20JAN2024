@@ -6,8 +6,8 @@ import com.wecp.progressive.entity.Customers;
 import java.sql.*;
 import java.util.*;
 public class CustomerDAOImpl implements CustomerDAO{
-    private Connection connection; 
-    public CustomerDAOImpl() {
+    private static Connection connection; 
+    static {
         try {
             connection = DatabaseConnectionManager.getConnection();
         } catch (SQLException e) {
@@ -16,6 +16,7 @@ public class CustomerDAOImpl implements CustomerDAO{
     }
     public int addCustomer(Customers customers) 
     {
+
         String sql = "INSERT INTO customers(name, email, username, password, role) VALUES(?,?,?,?,?)";
         try(PreparedStatement st = connection.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS)) 
         {
@@ -39,6 +40,7 @@ public class CustomerDAOImpl implements CustomerDAO{
             e.printStackTrace();
             return 0;
         }
+        
 
     }
 
@@ -138,7 +140,8 @@ public class CustomerDAOImpl implements CustomerDAO{
     @Override
     public CustomerAccountInfo getCustomerAccountInfo(int customerId) {
         // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'getCustomerAccountInfo'");
+        //throw new UnsupportedOperationException("Unimplemented method 'getCustomerAccountInfo'");
+        return new CustomerAccountInfo();
     }
 
 }

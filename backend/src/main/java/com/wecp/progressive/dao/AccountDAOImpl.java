@@ -5,10 +5,10 @@ import com.wecp.progressive.exception.AccountNotFoundException;
 import java.util.*;
 import java.sql.*;
 public class AccountDAOImpl implements AccountDAO{
-    private Connection connection;
+    private static Connection connection;
     ArrayList<Accounts> arr = new ArrayList<Accounts>();
 
-    public AccountDAOImpl() {
+    static {
         try {
             connection = DatabaseConnectionManager.getConnection();
         } catch (SQLException e) {
@@ -44,6 +44,7 @@ public class AccountDAOImpl implements AccountDAO{
         Accounts acc3 = new Accounts(1003, 1223, 2500.0);
         arr.add(acc3);
         return 0;*/
+
 
         
     }

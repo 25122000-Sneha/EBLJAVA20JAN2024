@@ -7,6 +7,7 @@ public class Transactions {
     private double amount;
     private Date transaction_date;
     private String transaction_type;
+    public Transactions(){}
     public Transactions(int transaction_id, int account_id, double amount, Date transaction_date,
             String transaction_type) {
         this.transaction_id = transaction_id;
