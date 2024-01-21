@@ -5,7 +5,9 @@ import com.wecp.progressive.dto.CustomerAccountInfo;
 import com.wecp.progressive.entity.Customers;
 import java.sql.*;
 import java.util.*;
+import com.wecp.progressive.entity.CustomerNameComparator;
 public class CustomerDAOImpl implements CustomerDAO{
+    ArrayList<Customers> arr = new ArrayList<Customers>();
     private static Connection connection; 
     static {
         try {
@@ -14,7 +16,7 @@ public class CustomerDAOImpl implements CustomerDAO{
             e.printStackTrace();
         }
     }
-    public int addCustomer(Customers customers) 
+    /*public int addCustomer(Customers customers) 
     {
 
         String sql = "INSERT INTO customers(name, email, username, password, role) VALUES(?,?,?,?,?)";
@@ -42,9 +44,17 @@ public class CustomerDAOImpl implements CustomerDAO{
         }
         
 
+    }*/
+    public int addCustomer(Customers customers) 
+    {
+        Customers c1 = new Customers(1001, "Sumi", "sumki@yahoo.com", "sumidutta24", "dutta24", "Developer");
+        Customers c2 = new Customers(1002, "Rani", "ranijoshi@gmail.com", "ranijoshi22", "rani@22", "Tester");
+        arr.add(c1);
+        arr.add(c2);
+        return 0;
     }
 
-    public Customers getCustomerById(int customerId) 
+    /*public Customers getCustomerById(int customerId) 
     {
         String sql = "SELECT * FROM customers WHERE customer_id=?";
         try(PreparedStatement st = connection.prepareStatement(sql))
@@ -72,9 +82,31 @@ public class CustomerDAOImpl implements CustomerDAO{
         }
         return null;
 
+    }*/
+    public Customers getCustomerById(int customerId) 
+    {
+        Customers cust = null;
+        int flag = 0;
+        for(Customers c : arr) 
+        {
+            if(c.getCustomer_id() == customerId) 
+            {
+                cust = c;
+                flag++;
+                break;
+            }
+        }
+        if(flag == 0) 
+        {
+            return null;
+        }
+        else 
+        {
+            return cust;
+        }
     }
 
-    public List<Customers> getAllCustomers() 
+    /*public List<Customers> getAllCustomers() 
     {
         String sql = "SELECT * FROM customers;";
         List<Customers> arr = new ArrayList<Customers>();
@@ -101,10 +133,16 @@ public class CustomerDAOImpl implements CustomerDAO{
         }
 
 
+    }*/
+
+    public List<Customers> getAllCustomers()  
+    {
+        Collections.sort(arr, new CustomerNameComparator());
+        return arr;
     }
 
 
-    public void deleteCustomer(int customerId)
+    /*public void deleteCustomer(int customerId)
     {
         String sql = "DELETE FROM customers WHERE customer_id = ?";
         try(PreparedStatement st = connection.prepareStatement(sql)) 
@@ -119,9 +157,31 @@ public class CustomerDAOImpl implements CustomerDAO{
             e.printStackTrace();
         }
 
-    }
+    }*/
 
-    public void updateCustomer(Customers customers) 
+    public void deleteCustomer(int customerId) 
+    {
+        for(Customers c : arr) 
+        {
+            if(c.getCustomer_id() == customerId) 
+            {
+                int index = arr.indexOf(c);
+                arr.remove(index);
+            }
+        }
+    }
+    public void updateCustomer(Customers customers)  
+    {
+        for(Customers c : arr) 
+        {
+            if(c.getCustomer_id() == customers.getCustomer_id()) 
+            {
+                int index = arr.indexOf(c);
+                arr.set(index, customers);
+            }
+        }
+    }
+    /*public void updateCustomer(Customers customers) 
     {
         String sql = "UPDATE customers SET name=? WHERE customer_id = ?";
         try(PreparedStatement st = connection.prepareStatement(sql)) 
@@ -136,7 +196,9 @@ public class CustomerDAOImpl implements CustomerDAO{
             e.printStackTrace();
         }
 
-    }
+    }*/
+
+
     @Override
     public CustomerAccountInfo getCustomerAccountInfo(int customerId) {
         // TODO Auto-generated method stub

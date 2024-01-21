@@ -15,7 +15,8 @@ public class AccountDAOImpl implements AccountDAO{
             e.printStackTrace();
         }
     }
-    public int addAccount(Accounts accounts)
+
+    /*public int addAccount(Accounts accounts)
     {
         String sql = "INSERT INTO accounts(customer_id, balance) VALUES(?, ?)";
         try(PreparedStatement st = connection.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS))
@@ -43,12 +44,20 @@ public class AccountDAOImpl implements AccountDAO{
         
         Accounts acc3 = new Accounts(1003, 1223, 2500.0);
         arr.add(acc3);
-        return 0;*/
+        return 0;
 
 
         
+    }*/
+    public int addAccount(Accounts accounts) 
+    {
+        Accounts acc1 = new Accounts(1001, 1221, 5000.0);
+        Accounts acc2 = new Accounts(1002, 1222, 6000.0);
+        arr.add(acc1);
+        arr.add(acc2);
+        return 0;
     }
-    public Accounts getAccountById(int accountId) throws AccountNotFoundException
+    /*public Accounts getAccountById(int accountId) throws AccountNotFoundException
     {
         String sql = "SELECT * FROM accounts WHERE accountId = ?";
         try(PreparedStatement st = connection.prepareStatement(sql))
@@ -77,10 +86,33 @@ public class AccountDAOImpl implements AccountDAO{
             return null;
         }
         /*Accounts acc = arr.get(0);
-        return acc;*/
+        return acc;
+    }*/
+
+    public Accounts getAccountById(int accountId) throws AccountNotFoundException 
+    {
+        int flag = 0;
+        Accounts obj = null;
+        for(Accounts a : arr) 
+        {
+            if(a.getAccount_id() == accountId) 
+            {
+                flag++;
+                obj = a;
+                break;
+            }
+        }
+        if(flag == 0)
+        {
+            throw new AccountNotFoundException();
+        }
+        else 
+        {
+            return obj;
+        }
+        
     }
-    
-    public void updateAccount(Accounts accounts) 
+    /*public void updateAccount(Accounts accounts) 
     {
         String sql = "UPDATE accounts SET customer_id=? WHERE account_id = ?";
         try(PreparedStatement st = connection.prepareStatement(sql)) 
@@ -95,8 +127,19 @@ public class AccountDAOImpl implements AccountDAO{
             e.printStackTrace();
         }
 
+    }*/
+    public void updateAccount(Accounts accounts)  
+    {
+        for(Accounts a : arr) 
+        {
+            if(accounts.getAccount_id() == a.getAccount_id()) 
+            {
+                int index = arr.indexOf(a);
+                arr.set(index, accounts);
+            }
+        }
     }
-    public void deleteAccount(int accountId)
+    /*public void deleteAccount(int accountId)
     {
         //arr.remove(0);
         String sql = "DELETE FROM accounts WHERE account_id = ?";
@@ -114,8 +157,20 @@ public class AccountDAOImpl implements AccountDAO{
         }
 
         
+    }*/
+    public void deleteAccount(int accountId) 
+    {
+        for(Accounts acc : arr) 
+        {
+            if(acc.getAccount_id() == accountId) 
+            {
+                int index = arr.indexOf(acc);
+                arr.remove(index);
+                break;
+            }
+        }
     }
-    public List<Accounts> getAllAccounts() 
+    /*public List<Accounts> getAllAccounts() 
     {
         String sql = "SELECT * FROM accounts";
         try(PreparedStatement st = connection.prepareStatement(sql)) 
@@ -141,6 +196,12 @@ public class AccountDAOImpl implements AccountDAO{
         }
 
         //return arr;
+    }
+    */
+    public List<Accounts> getAllAccounts()  
+    {
+        Collections.sort(arr);
+        return arr;
     }
 
 
