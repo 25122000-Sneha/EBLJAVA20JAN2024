@@ -1,4 +1,4 @@
 package com.wecp.progressive.exception;
 
-public class AccountNotFoundException {
+public class AccountNotFoundException extends Exception{
 }
